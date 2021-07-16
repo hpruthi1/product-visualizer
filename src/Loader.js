@@ -13,6 +13,21 @@ export function ImportModel(ctx, URL, name) {
       ctx.scene.add(Model.scene);
     },
     () => {},
-    () => {}
+    (error) => {
+      console.log(error);
+    }
+  );
+}
+
+export function LoadSkybox(ctx, URL) {
+  ctx.textureLoader.load(
+    URL,
+    (texture) => {
+      ctx.scene.background = texture;
+    },
+    () => {},
+    (error) => {
+      console.log(error);
+    }
   );
 }

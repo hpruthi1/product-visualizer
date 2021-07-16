@@ -10,12 +10,18 @@ const scene = new THREE.Scene();
 //Loader
 let modelLoader = new GLTFLoader();
 
+let textureLoader = new THREE.CubeTextureLoader();
+
 //An object that can be accessed in other scripts
 let ctx = {
   database: Database,
   loader: modelLoader,
   scene: scene,
+  textureLoader: textureLoader,
 };
+
+let Buttons = document.getElementsByClassName("buttons");
+let SkyboxButtons = document.getElementsByClassName("skyboxBTN");
 
 function SetURL() {
   for (let i = 0; i < Buttons.length; i++) {
@@ -23,28 +29,50 @@ function SetURL() {
   }
 }
 
+function SetSkyboxURL() {
+  for (let index = 0; index < SkyboxButtons.length; index++) {
+    Skyboxes[SkyboxButtons[index].id] = ctx.database.skyboxDatabase[index].URL;
+  }
+}
+
 let selectedItemURL;
+let selectedSkyboxURL;
+
 let ItemInfo = {
   button1: "",
   button2: "",
   button3: "",
 };
 
-let Buttons = document.getElementsByClassName("buttons");
+let Skyboxes = {
+  button4: [],
+  button5: [],
+  button6: [],
+};
 
 function BindSelectionEvent() {
   for (let i = 0; i < Buttons.length; i++) {
     Buttons[i].addEventListener("click", () => {
       SetURL();
       selectedItemURL = ItemInfo[Buttons[i].id];
-      ctx.database.database.URL = selectedItemURL;
       Loader.ImportModel(ctx, selectedItemURL, ctx.database.database.name);
+    });
+  }
+}
+
+function BindSkyboxSelectionEvent() {
+  for (let i = 0; i < SkyboxButtons.length; i++) {
+    SkyboxButtons[i].addEventListener("click", () => {
+      SetSkyboxURL();
+      selectedSkyboxURL = Skyboxes[SkyboxButtons[i].id];
+      Loader.LoadSkybox(ctx, selectedSkyboxURL);
     });
   }
 }
 
 window.addEventListener("DOMContentLoaded", (event) => {
   BindSelectionEvent();
+  BindSkyboxSelectionEvent();
 });
 
 //Camera
