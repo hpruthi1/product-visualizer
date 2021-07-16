@@ -6,13 +6,13 @@ export function ImportModel(ctx, URL, name) {
     URL,
     (Model) => {
       Model.scene.name = name;
-      var temp = ctx.scene.getObjectByName(Model.scene.name);
-      if (temp != null) {
+      const temp = ctx.scene.getObjectByName(Model.scene.name);
+      if (temp !== null) {
         ctx.scene.remove(temp);
       }
       ctx.scene.add(Model.scene);
     },
-    undefined,
-    undefined
+    () => {},
+    () => {}
   );
 }

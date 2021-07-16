@@ -43,7 +43,9 @@ function BindSelectionEvent() {
   }
 }
 
-BindSelectionEvent();
+window.addEventListener("DOMContentLoaded", (event) => {
+  BindSelectionEvent();
+});
 
 //Camera
 const camera = new THREE.PerspectiveCamera(
