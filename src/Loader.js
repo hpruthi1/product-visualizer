@@ -11,6 +11,8 @@ export function ImportModel(ctx, URL, name) {
         ctx.scene.remove(temp);
       }
       ctx.scene.add(Model.scene);
+      Model.envMap = ctx.scene.background;
+      console.log(Model);
     },
     () => {},
     (error) => {
@@ -23,7 +25,9 @@ export function LoadSkybox(ctx, URL) {
   ctx.textureLoader.load(
     URL,
     (texture) => {
+      texture.mapping = ctx.three.EquirectangularReflectionMapping;
       ctx.scene.background = texture;
+      console.log(texture);
     },
     () => {},
     (error) => {

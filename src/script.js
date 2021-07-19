@@ -1,16 +1,22 @@
 import * as THREE from "../three/build/three.module.js";
 import { GLTFLoader } from "../three/examples/jsm/loaders/GLTFLoader.js";
 import { OrbitControls } from "../three/examples/jsm/controls/OrbitControls.js";
+import { RGBELoader } from "../three/examples/jsm/loaders/RGBELoader.js";
 import * as Database from "./Database.js";
 import * as Loader from "./Loader.js";
+import { GUI } from "../three/examples/jsm/libs/dat.gui.module.js";
 
 //Scene
 const scene = new THREE.Scene();
 
+let gui;
+
+gui = new GUI();
+
 //Loader
 let modelLoader = new GLTFLoader();
 
-let textureLoader = new THREE.CubeTextureLoader();
+let textureLoader = new RGBELoader();
 
 //An object that can be accessed in other scripts
 let ctx = {
@@ -18,6 +24,8 @@ let ctx = {
   loader: modelLoader,
   scene: scene,
   textureLoader: textureLoader,
+  three: THREE,
+  gui: gui,
 };
 
 let Buttons = document.getElementsByClassName("buttons");
@@ -45,9 +53,9 @@ let ItemInfo = {
 };
 
 let Skyboxes = {
-  button4: [],
-  button5: [],
-  button6: [],
+  button4: "",
+  button5: "",
+  button6: "",
 };
 
 function BindSelectionEvent() {
@@ -111,9 +119,6 @@ window.addEventListener("resize", function () {
 const light = new THREE.DirectionalLight(0xffffff, 1);
 light.position.set(0, 12, 8);
 scene.add(light);
-
-//Calling function from Loader.js to load models in scene
-//Loader.ImportModel(ctx);
 
 //Update function
 const animate = function () {

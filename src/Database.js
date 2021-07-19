@@ -21,35 +21,14 @@ export const database = [
 export const skyboxDatabase = [
   {
     name: "",
-    URL: [
-      "textures/Daylight_px.jpg",
-      "textures/Daylight_nx.jpg",
-      "textures/Daylight_py.jpg",
-      "textures/Daylight_ny.jpg",
-      "textures/Daylight_pz.jpg",
-      "textures/Daylight_nz.jpg",
-    ],
+    URL: "textures/forest_slope_2k.hdr",
   },
   {
     name: "",
-    URL: [
-      "textures/MilkyWay/dark-s_px.jpg",
-      "textures/MilkyWay/dark-s_nx.jpg",
-      "textures/MilkyWay/dark-s_py.jpg",
-      "textures/MilkyWay/dark-s_ny.jpg",
-      "textures/MilkyWay/dark-s_pz.jpg",
-      "textures/MilkyWay/dark-s_nz.jpg",
-    ],
+    URL: "textures/christmas_photo_studio_02_2k.hdr",
   },
   {
     name: "",
-    URL: [
-      "textures/Park2/posx.jpg",
-      "textures/Park2/negx.jpg",
-      "textures/Park2/posy.jpg",
-      "textures/Park2/negy.jpg",
-      "textures/Park2/posz.jpg",
-      "textures/Park2/negz.jpg",
-    ],
+    URL: "textures/large_corridor_2k.hdr",
   },
 ];
