@@ -116,9 +116,35 @@ window.addEventListener("resize", function () {
 });
 
 //Adding light to Scene
-const light = new THREE.DirectionalLight(0xffffff, 1);
-light.position.set(0, 12, 8);
-scene.add(light);
+const dirLight = new THREE.DirectionalLight(0xffffff, 1);
+dirLight.color.setHSL(0.1, 1, 0.95);
+dirLight.position.set(5, 10, 7.5);
+scene.add(dirLight);
+
+dirLight.castShadow = true;
+
+const dirLightHelper = new THREE.DirectionalLightHelper(dirLight, 10);
+scene.add(dirLightHelper);
+
+const hemiLight = new THREE.HemisphereLight(0.6);
+hemiLight.color.setHSL(0.6, 1, 0.6);
+hemiLight.position.set(0, 50, 0);
+scene.add(hemiLight);
+
+const hemiLightHelper = new THREE.HemisphereLightHelper(hemiLight, 10);
+scene.add(hemiLightHelper);
+
+const hemisphereButton = document.getElementById("hemisphereButton");
+hemisphereButton.addEventListener("click", function () {
+  hemiLight.visible = !hemiLight.visible;
+  hemiLightHelper.visible = !hemiLightHelper.visible;
+});
+
+const directionalButton = document.getElementById("directionalButton");
+directionalButton.addEventListener("click", function () {
+  dirLight.visible = !dirLight.visible;
+  dirLightHelper.visible = !dirLightHelper.visible;
+});
 
 //Update function
 const animate = function () {
