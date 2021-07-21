@@ -2,18 +2,18 @@
 
 export const database = [
   {
-    name: "Cube",
+    name: "",
     URL: "cube.gltf",
     type: "",
   },
   {
-    name: "Duck",
-    URL: "Duck/glTF-Binary/Duck.glb",
+    name: "",
+    URL: "reflective-sphere.gltf",
     type: "",
   },
   {
-    name: "Flower",
-    URL: "Flower/Flower.glb",
+    name: "",
+    URL: "DamagedHelmet/glTF/DamagedHelmet.gltf",
     type: "",
   },
 ];

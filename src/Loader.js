@@ -1,5 +1,11 @@
 import { database } from "./Database";
 
+let model;
+let skybox;
+let xrayState;
+
+let event = new Event("onModelLoad");
+
 //Model importing
 export function ImportModel(ctx, URL, name) {
   ctx.loader.load(
@@ -10,9 +16,17 @@ export function ImportModel(ctx, URL, name) {
       if (temp !== null) {
         ctx.scene.remove(temp);
       }
-      ctx.scene.add(Model.scene);
-      Model.envMap = ctx.scene.background;
-      console.log(Model);
+      model = Model.scene;
+      ctx.scene.add(model);
+      window.dispatchEvent(event);
+      if (skybox) {
+        model.traverse((child) => {
+          if (child.isMesh) child.material.envMap = skybox;
+        });
+      }
+      model.traverse((child) => {
+        if (child.isMesh) child.material.wireframe = xrayState;
+      });
     },
     () => {},
     (error) => {
@@ -25,9 +39,14 @@ export function LoadSkybox(ctx, URL) {
   ctx.textureLoader.load(
     URL,
     (texture) => {
+      skybox = texture;
       texture.mapping = ctx.three.EquirectangularReflectionMapping;
-      ctx.scene.background = texture;
-      console.log(texture);
+      ctx.scene.background = skybox;
+      if (model) {
+        model.traverse((child) => {
+          if (child.isMesh) child.material.envMap = skybox;
+        });
+      }
     },
     () => {},
     (error) => {
@@ -35,3 +54,17 @@ export function LoadSkybox(ctx, URL) {
     }
   );
 }
+
+export function xrayView(bool) {
+  xrayState = bool;
+  if (model) {
+    model.traverse((child) => {
+      if (child.isMesh) {
+        child.material.wireframe = xrayState;
+        child.material.transparent = true;
+      }
+    });
+  }
+}
+
+export { model };
