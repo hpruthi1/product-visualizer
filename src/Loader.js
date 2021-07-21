@@ -12,7 +12,6 @@ export function ImportModel(ctx, URL, name) {
       }
       ctx.scene.add(Model.scene);
       Model.envMap = ctx.scene.background;
-      console.log(Model);
     },
     () => {},
     (error) => {

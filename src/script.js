@@ -30,6 +30,7 @@ let ctx = {
 
 let Buttons = document.getElementsByClassName("buttons");
 let SkyboxButtons = document.getElementsByClassName("skyboxBTN");
+let lights = document.getElementsByClassName("light");
 
 function SetURL() {
   for (let i = 0; i < Buttons.length; i++) {
@@ -78,9 +79,21 @@ function BindSkyboxSelectionEvent() {
   }
 }
 
+let id;
+
+function GetLightsID() {
+  for (let index = 0; index < lights.length; index++) {
+    lights[index].addEventListener("click", () => {
+      id = lights[index].id;
+      AddLightToScene(id);
+    });
+  }
+}
+
 window.addEventListener("DOMContentLoaded", (event) => {
   BindSelectionEvent();
   BindSkyboxSelectionEvent();
+  GetLightsID();
 });
 
 //Camera
@@ -115,36 +128,52 @@ window.addEventListener("resize", function () {
   camera.updateProjectionMatrix();
 });
 
-//Adding light to Scene
-const dirLight = new THREE.DirectionalLight(0xffffff, 1);
-dirLight.color.setHSL(0.1, 1, 0.95);
-dirLight.position.set(5, 10, 7.5);
-scene.add(dirLight);
-
-dirLight.castShadow = true;
-
-const dirLightHelper = new THREE.DirectionalLightHelper(dirLight, 10);
-scene.add(dirLightHelper);
-
-const hemiLight = new THREE.HemisphereLight(0.6);
-hemiLight.color.setHSL(0.6, 1, 0.6);
-hemiLight.position.set(0, 50, 0);
-scene.add(hemiLight);
-
-const hemiLightHelper = new THREE.HemisphereLightHelper(hemiLight, 10);
-scene.add(hemiLightHelper);
-
-const hemisphereButton = document.getElementById("hemisphereButton");
-hemisphereButton.addEventListener("click", function () {
-  hemiLight.visible = !hemiLight.visible;
-  hemiLightHelper.visible = !hemiLightHelper.visible;
-});
-
-const directionalButton = document.getElementById("directionalButton");
-directionalButton.addEventListener("click", function () {
-  dirLight.visible = !dirLight.visible;
-  dirLightHelper.visible = !dirLightHelper.visible;
-});
+function AddLightToScene(id) {
+  switch (id) {
+    case "hemisphereButton":
+      let hemispherelight = new THREE.HemisphereLight(0xffffbb, 0x080820, 1);
+      scene.add(hemispherelight);
+      const helper = new THREE.HemisphereLightHelper(hemispherelight, 5);
+      scene.add(helper);
+      console.log(hemispherelight);
+      break;
+    case "directionalButton":
+      let directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
+      scene.add(directionalLight);
+      const dirlighthelper = new THREE.DirectionalLightHelper(
+        directionalLight,
+        5
+      );
+      scene.add(dirlighthelper);
+      console.log(directionalLight);
+      break;
+    case "spotLightButton":
+      let spotLight = new THREE.SpotLight(0xffffff);
+      spotLight.position.set(100, 1000, 100);
+      spotLight.castShadow = true;
+      scene.add(spotLight);
+      const spotLightHelper = new THREE.SpotLightHelper(spotLight);
+      scene.add(spotLightHelper);
+      console.log(spotLight);
+      break;
+    case "pointLightButton":
+      let pointlight = new THREE.PointLight(0xff0000, 1, 100);
+      pointlight.position.set(50, 50, 50);
+      scene.add(pointlight);
+      const sphereSize = 1;
+      const pointLightHelper = new THREE.PointLightHelper(
+        pointlight,
+        sphereSize
+      );
+      scene.add(pointLightHelper);
+      console.log(pointlight);
+      break;
+    case "AmbientLightButton":
+      let ambientlight = new THREE.AmbientLight(0x404040);
+      scene.add(ambientlight);
+      break;
+  }
+}
 
 //Update function
 const animate = function () {
